@@ -232,6 +232,7 @@ class StringClusterMap(PluginForm):
 		self.view.setModel(self.model)
 		self.view.setUniformRowHeights(True)
 		res_strs = 0
+		parent = None
 		for idx, (f_ea, fi) in enumerate(self.items.iteritems()):
 			fun_ea = f_ea
 			fun_name = fi['name']
