@@ -20,15 +20,20 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
-DEBUG         = False
-PROFILE       = False
-NO_FUNC       = '0_sub'
-MATCH_COLOR   = QColor(0xC7,0xF2, 0xCF)
-NOMATCH_COLOR = QColor('white')
+# Change this flag if you prefer filtering while you type.  I personally don't
+# like this as it removes results that I may look at while creating the next
+# input, but also typing becomes slow on a large number of strings.
+INSTANT_SEARCH = False
 
-FUN_COLUMN    = 0
-XREF_COLUMN   = 1
-STR_COLUMN    = 2
+DEBUG          = False
+PROFILE        = False
+NO_FUNC        = '0_sub'
+MATCH_COLOR    = QColor(0xC7,0xF2, 0xCF)
+NOMATCH_COLOR  = QColor('white')
+
+FUN_COLUMN     = 0
+XREF_COLUMN    = 1
+STR_COLUMN     = 2
 
 if PROFILE == True:
 	start_time = time.time()
@@ -159,7 +164,7 @@ class StringClusterMap(PluginForm):
 		if event != None:
 			QLineEdit.keyReleaseEvent(self.filter_line, event)
 
-		if event and (event.key() != QtCore.Qt.Key_Enter and event.key() != QtCore.Qt.Key_Return):
+		if event and (INSTANT_SEARCH == False and event.key() != QtCore.Qt.Key_Enter and event.key() != QtCore.Qt.Key_Return):
 			return
 
 		search_text = self.filter_line.text()
