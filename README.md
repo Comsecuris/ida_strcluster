@@ -13,6 +13,6 @@ In short the plugin does the following:
 
 ![strcluster](strcluster.gif)
 
-Simply copy the python file to the IDA plugin directory.
+Simply copy the python file to the IDA plugin directory. Please note that the plugin requires IDA Pro >= 6.9.
 
 NOTE: name changes in functions do not instantly reflect in strcluster. A reload currently requires launching the plugin again.

@@ -5,7 +5,7 @@
 # to a function are grouped into the 0_sub pseudo-function. This allows to quickly
 # identify intersting functionality as well as strings that are not part of a function
 # and quickly navigate through the results and filter them, hopefully making manual
-# analysis more effectively.
+# analysis more effectively. Requires IDA Pro >= 6.9.
 
 import re
 
