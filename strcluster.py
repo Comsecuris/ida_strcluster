@@ -16,9 +16,9 @@ from idaapi import PluginForm
 
 import time
 
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
+from PyQt5 import QtCore
+from PyQt5 import QtWidgets
+from PyQt5 import QtGui
 
 # Change this flag if you prefer filtering while you type.  I personally don't
 # like this as it removes results that I may look at while creating the next
@@ -28,8 +28,8 @@ INSTANT_SEARCH = False
 DEBUG          = False
 PROFILE        = False
 NO_FUNC        = '0_sub'
-MATCH_COLOR    = QColor(0xC7,0xF2, 0xCF)
-NOMATCH_COLOR  = QColor('white')
+MATCH_COLOR    = QtGui.QColor(0xC7,0xF2, 0xCF)
+NOMATCH_COLOR  = QtGui.QColor('white')
 
 FUN_COLUMN     = 0
 XREF_COLUMN    = 1
@@ -45,9 +45,9 @@ def dprint(s):
 	if DEBUG == True:
 		print(s)
 
-class StringItem(QStandardItem):
+class StringItem(QtGui.QStandardItem):
 	def __init__(self, s, ea):
-		super(QStandardItem, self).__init__(s)
+		super(QtGui.QStandardItem, self).__init__(s)
 		self.ea = ea
 
 class IdaString():
@@ -162,7 +162,7 @@ class StringClusterMap(PluginForm):
 
 	def filterEvent(self, event = None):
 		if event != None:
-			QLineEdit.keyReleaseEvent(self.filter_line, event)
+			QtWidgets.QLineEdit.keyReleaseEvent(self.filter_line, event)
 
 		if event and (INSTANT_SEARCH == False and event.key() != QtCore.Qt.Key_Enter and event.key() != QtCore.Qt.Key_Return):
 			return
@@ -228,10 +228,10 @@ class StringClusterMap(PluginForm):
 		self.layout = QtWidgets.QVBoxLayout()
 		self.layout.setContentsMargins(0,0,0,0)
 		self.layout.setSpacing(0)
-		self.view = QTreeView()
-		self.view.setSelectionBehavior(QAbstractItemView.SelectRows)
+		self.view = QtWidgets.QTreeView()
+		self.view.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
 
-		self.model = QStandardItemModel()
+		self.model = QtGui.QStandardItemModel()
 		self.model.setHorizontalHeaderLabels(['Function', 'Xref EA', 'String'])
 
 		self.view.setModel(self.model)
@@ -262,18 +262,18 @@ class StringClusterMap(PluginForm):
 
 		self.layout.addWidget(self.view)
 
-		self.filterbox = QGroupBox()
-		self.ctrlbox = QGroupBox()
-		self.filterlayout = QGridLayout()
-		self.ctrllayout = QHBoxLayout()
+		self.filterbox = QtWidgets.QGroupBox()
+		self.ctrlbox = QtWidgets.QGroupBox()
+		self.filterlayout = QtWidgets.QGridLayout()
+		self.ctrllayout = QtWidgets.QHBoxLayout()
 		self.ctrllayout.setContentsMargins(0,0,0,0)
 		self.filterlayout.setContentsMargins(0,1,0,0)
 
-		self.filter_line = QLineEdit() #FilterLine()
-		self.results = QLabel('%d strings' %(res_strs))
-		self.hidecheckb = QCheckBox('Hide no match')
-		self.hidenscheckb = QCheckBox('Collapse ' + NO_FUNC)
-		self.regexckb = QCheckBox('Regex')
+		self.filter_line = QtWidgets.QLineEdit() #FilterLine()
+		self.results = QtWidgets.QLabel('%d strings' %(res_strs))
+		self.hidecheckb = QtWidgets.QCheckBox('Hide no match')
+		self.hidenscheckb = QtWidgets.QCheckBox('Collapse ' + NO_FUNC)
+		self.regexckb = QtWidgets.QCheckBox('Regex')
 		self.hidecheckb.setChecked(True)
 		self.hidenscheckb.setChecked(False)
 		self.regexckb.setChecked(False)
