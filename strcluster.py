@@ -20,10 +20,10 @@ from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 from PyQt5 import QtGui
 
-# Change this flag if you prefer filtering while you type.  I personally don't
+# Change this flag if you prefer to not filter while you type.  I personally don't
 # like this as it removes results that I may look at while creating the next
 # input, but also typing becomes slow on a large number of strings.
-INSTANT_SEARCH = False
+LIVE_SEARCH = True
 
 DEBUG          = False
 PROFILE        = False
@@ -157,6 +157,9 @@ class StringClusterMap(PluginForm):
 			item.setBackground(NOMATCH_COLOR)
 			return True
 
+	def liveSearchCheckBox(self, event):
+		self.live_search = not self.live_search
+
 	def checkBoxEvent(self, event):
 		self.filterEvent()
 
@@ -164,7 +167,7 @@ class StringClusterMap(PluginForm):
 		if event != None:
 			QtWidgets.QLineEdit.keyReleaseEvent(self.filter_line, event)
 
-		if event and (INSTANT_SEARCH == False and event.key() != QtCore.Qt.Key_Enter and event.key() != QtCore.Qt.Key_Return):
+		if event and (self.live_search == False and event.key() != QtCore.Qt.Key_Enter and event.key() != QtCore.Qt.Key_Return):
 			return
 
 		search_text = self.filter_line.text()
@@ -274,11 +277,15 @@ class StringClusterMap(PluginForm):
 		self.hidecheckb = QtWidgets.QCheckBox('Hide no match')
 		self.hidenscheckb = QtWidgets.QCheckBox('Collapse ' + NO_FUNC)
 		self.regexckb = QtWidgets.QCheckBox('Regex')
+		self.live_searchcb = QtWidgets.QCheckBox('Live search')
 		self.hidecheckb.setChecked(True)
 		self.hidenscheckb.setChecked(False)
 		self.regexckb.setChecked(False)
+		self.live_searchcb.setChecked(LIVE_SEARCH)
+		self.live_search = LIVE_SEARCH
 		self.filter_regex = None
 
+		self.live_searchcb.stateChanged.connect(self.liveSearchCheckBox)
 		self.hidecheckb.stateChanged.connect(self.checkBoxEvent)
 		self.hidenscheckb.stateChanged.connect(self.checkBoxEvent)
 		self.regexckb.stateChanged.connect(self.checkBoxEvent)
@@ -286,9 +293,11 @@ class StringClusterMap(PluginForm):
 		self.view.mouseDoubleClickEvent = self.doubleClickEvent
 		self.filterlayout.addWidget(self.filter_line, 1, 1)
 		self.filterlayout.addWidget(self.results, 1, 2)
+
 		self.ctrllayout.addWidget(self.hidecheckb)
-		self.ctrllayout.addWidget(self.hidenscheckb)
 		self.ctrllayout.addWidget(self.regexckb)
+		self.ctrllayout.addWidget(self.hidenscheckb)
+		self.ctrllayout.addWidget(self.live_searchcb)
 		self.ctrllayout.addStretch()
 
 		self.layout.addWidget(self.filterbox)
