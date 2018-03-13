@@ -105,7 +105,7 @@ class StringClusterMap(PluginForm):
 
 	def xrefsTo(self, ea):
 		s = []
-		map(lambda x: s.append(x.frm), XrefsTo(ea))
+		map(lambda x: s.append(x.frm), idautils.XrefsTo(ea))
 		return s
 	
 	def funXrefs(self):
@@ -123,8 +123,8 @@ class StringClusterMap(PluginForm):
 			for fs_ea in s_xrefs_eas:
 				dprint("looking for function of %x" %(fs_ea))
 
-				f_name = GetFunctionName(fs_ea)
-				f_ea = GetFunctionAttr(fs_ea, FUNCATTR_START)
+				f_name = idc.GetFunctionName(fs_ea)
+				f_ea = idc.GetFunctionAttr(fs_ea, idc.FUNCATTR_START)
 				if not f_name or f_name == '': f_name = NO_FUNC
 				if f_ea in res:
 					res[f_ea]['strings'][s_v] = IdaString(s_v, s_ea, fs_ea)
