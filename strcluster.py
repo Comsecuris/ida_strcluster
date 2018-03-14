@@ -310,6 +310,12 @@ class StringClusterMap(PluginForm):
 		# sorted within their respective parents, which can be confusing at first.
 		self.view.setSortingEnabled(True)
 
+		w_width = self.parent.size().width()
+		c0_width = self.view.columnWidth(0)
+		max_width = 20 * w_width / 100
+		if c0_width >= max_width:
+			self.view.setColumnWidth(0, max_width)
+
 		if PROFILE == True:
 			print("--- %s seconds ---" % (time.time() - start_time))
 			s = StringIO.StringIO()
